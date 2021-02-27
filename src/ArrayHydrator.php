@@ -49,10 +49,16 @@ class ArrayHydrator
 
     /**
      * @param EntityManagerInterface $entityManager
+     * @param bool $hydrateId
+     * @param int $hydrateBy
+     * @param bool $hydrateAssociationReferences
      */
-    public function __construct(EntityManagerInterface $entityManager)
+    public function __construct(EntityManagerInterface $entityManager, bool $hydrateId = false, int $hydrateBy = 1, bool $hydrateAssociationReferences = true)
     {
         $this->entityManager = $entityManager;
+        $this->hydrateId = $hydrateId;
+        $this->hydrateBy = $hydrateBy;
+        $this->hydrateAssociationReferences = $hydrateAssociationReferences;
     }
 
     /**
@@ -76,33 +82,10 @@ class ArrayHydrator
     }
 
     /**
-     * @param boolean $hydrateAssociationReferences
-     */
-    public function setHydrateAssociationReferences($hydrateAssociationReferences)
-    {
-        $this->hydrateAssociationReferences = $hydrateAssociationReferences;
-    }
-
-    /**
-     * @param bool $hydrateId
-     */
-    public function setHydrateId($hydrateId)
-    {
-        $this->hydrateId = $hydrateId;
-    }
-
-    /**
-     * @param int $hydrateBy
-     */
-    public function setHydrateBy($hydrateBy)
-    {
-        $this->hydrateBy = $hydrateBy;
-    }
-
-    /**
      * @param object $entity the doctrine entity
      * @param array $data
      * @return object
+     * @throws \Doctrine\DBAL\DBALException
      */
     protected function hydrateProperties($entity, $data)
     {

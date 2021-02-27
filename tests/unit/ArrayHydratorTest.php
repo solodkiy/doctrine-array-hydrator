@@ -10,15 +10,9 @@ use Solodkiy\Doctrine\Hydrator\Test\Fixture\Permission;
 
 class ArrayHydratorTest extends TestCase
 {
-    /**
-     * @var ArrayHydrator
-     */
-    protected $hydrator;
-
     public function setUp()
     {
         $this->setupDoctrine();
-        $this->hydrator = new ArrayHydrator($this->entityManager);
     }
 
     public function testHydrateProperties()
@@ -30,7 +24,8 @@ class ArrayHydratorTest extends TestCase
         ];
 
         $user = new Fixture\User;
-        $user = $this->hydrator->hydrate($user, $data);
+        $hydrator = new ArrayHydrator($this->entityManager);
+        $user = $hydrator->hydrate($user, $data);
 
         $this->assertNull($user->getId());
         $this->assertEquals($data['name'], $user->getName());
@@ -51,9 +46,9 @@ class ArrayHydratorTest extends TestCase
             'country'=>'Republic',
         ];
 
-        $this->hydrator->setHydrateBy(ArrayHydrator::HYDRATE_BY_COLUMN);
+        $hydrator = new ArrayHydrator($this->entityManager, false, ArrayHydrator::HYDRATE_BY_COLUMN);
         $address = new Fixture\Address;
-        $address = $this->hydrator->hydrate($address, $data);
+        $address = $hydrator->hydrate($address, $data);
 
         $this->assertNull($address->getId());
         $this->assertEquals($data['street_address'], $address->getStreetAddress());
@@ -76,10 +71,9 @@ class ArrayHydratorTest extends TestCase
             'country'=>'Republic',
         ];
 
-        $this->hydrator->setHydrateId(true);
-        $this->hydrator->setHydrateBy(ArrayHydrator::HYDRATE_BY_COLUMN);
+        $hydrator = new ArrayHydrator($this->entityManager, true, ArrayHydrator::HYDRATE_BY_COLUMN);
         $address = new Fixture\Address;
-        $address = $this->hydrator->hydrate($address, $data);
+        $address = $hydrator->hydrate($address, $data);
 
         $this->assertEquals($data['address_id'], $address->getId());
         $this->assertEquals($data['street_address'], $address->getStreetAddress());
@@ -96,7 +90,8 @@ class ArrayHydratorTest extends TestCase
 
         $user = new Fixture\User;
         /** @var Fixture\User $user */
-        $user = $this->hydrator->hydrate($user, $data);
+        $hydrator = new ArrayHydrator($this->entityManager);
+        $user = $hydrator->hydrate($user, $data);
 
         $this->assertEquals(1, $user->getCompany()->getId());
         $this->assertEquals(103, $user->getAddress()->getId());
@@ -109,10 +104,10 @@ class ArrayHydratorTest extends TestCase
             'foreign_address_id'=>103,
         ];
 
-        $this->hydrator->setHydrateBy(ArrayHydrator::HYDRATE_BY_COLUMN);
+        $hydrator = new ArrayHydrator($this->entityManager, false, ArrayHydrator::HYDRATE_BY_COLUMN);
         $user = new Fixture\User;
         /** @var Fixture\User $user */
-        $user = $this->hydrator->hydrate($user, $data);
+        $user = $hydrator->hydrate($user, $data);
 
         $this->assertEquals(1, $user->getCompany()->getId());
         $this->assertEquals(103, $user->getAddress()->getId());
@@ -126,7 +121,8 @@ class ArrayHydratorTest extends TestCase
 
         $user = new Fixture\User;
         /** @var Fixture\User $user */
-        $user = $this->hydrator->hydrate($user, $data);
+        $hydrator = new ArrayHydrator($this->entityManager);
+        $user = $hydrator->hydrate($user, $data);
 
         $permissions = $user->getPermissions();
         $this->assertEquals(1, $permissions[0]->getId());
@@ -148,7 +144,8 @@ class ArrayHydratorTest extends TestCase
 
         $user = new Fixture\User;
         /** @var Fixture\User $user */
-        $user = $this->hydrator->hydrate($user, $data);
+        $hydrator = new ArrayHydrator($this->entityManager);
+        $user = $hydrator->hydrate($user, $data);
 
         $this->assertEquals($data['name'], $user->getName());
 
@@ -173,7 +170,8 @@ class ArrayHydratorTest extends TestCase
 
         $user = new Fixture\User;
         /** @var Fixture\User $user */
-        $user = $this->hydrator->hydrate($user, $data);
+        $hydrator = new ArrayHydrator($this->entityManager);
+        $user = $hydrator->hydrate($user, $data);
 
         $this->assertNull($user->getId());
         $this->assertEquals($data['name'], $user->getName());
@@ -198,13 +196,14 @@ class ArrayHydratorTest extends TestCase
         
         $user = new Fixture\User;
         /** @var Fixture\User $user */
-        $user = $this->hydrator->hydrate($user, $data);
+        $hydrator = new ArrayHydrator($this->entityManager);
+        $user = $hydrator->hydrate($user, $data);
         $user->setName('name');
         $user->setEmail('email');
 
         $this->assertEquals('name', $user->getName());
         $this->assertEquals('email', $user->getEmail());
-        $user = $this->hydrator->hydrate($user, $data);
+        $user = $hydrator->hydrate($user, $data);
         $this->assertNull($user->getName());
         $this->assertNull($user->getEmail());
     }
@@ -214,15 +213,17 @@ class ArrayHydratorTest extends TestCase
      */
     public function testInvalidClass()
     {
-        $this->hydrator->hydrate(1, []);
+        $hydrator = new ArrayHydrator($this->entityManager);
+        $hydrator->hydrate(1, []);
     }
 
     /**
      * @expectedException \Exception
      */
-    public function testUnkownClass()
+    public function testUnknownClass()
     {
-        $this->hydrator->hydrate('An\Unknown\Class', []);
+        $hydrator = new ArrayHydrator($this->entityManager);
+        $hydrator->hydrate('An\Unknown\Class', []);
     }
 
     public function testFetchAssociationEntity()
@@ -239,9 +240,8 @@ class ArrayHydratorTest extends TestCase
             ->andReturn($company)
             ->getMock();
 
-        $this->hydrator = new ArrayHydrator($entityManagerMock);
-        $this->hydrator->setHydrateAssociationReferences(false);
-        $user = $this->hydrator->hydrate($user, ['company' => $company->getId()]);
+        $hydrator = new ArrayHydrator($entityManagerMock, false, ArrayHydrator::HYDRATE_BY_FIELD, false);
+        $user = $hydrator->hydrate($user, ['company' => $company->getId()]);
 
         $this->assertEquals($company->getId(), $user->getCompany()->getId());
         $this->assertEquals($company->getName(), $user->getCompany()->getName());
@@ -257,7 +257,8 @@ class ArrayHydratorTest extends TestCase
         ];
 
         $call = new Fixture\Call();
-        $call = $this->hydrator->hydrate($call, $data);
+        $hydrator = new ArrayHydrator($this->entityManager);
+        $call = $hydrator->hydrate($call, $data);
 
         $this->assertInternalType('integer', $call->getDuration());
         $this->assertInstanceOf(\DateTime::class, $call->getStartTime());

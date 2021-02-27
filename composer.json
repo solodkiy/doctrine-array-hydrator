@@ -2,7 +2,6 @@
   "name": "solokiy/doctrine-array-hydrator",
   "description": " An array to entity hydrator for Doctrine 2 entities ",
   "keywords": ["php", "doctrine", "hydrator", "array"],
-  "homepage": "https://github.com/pmill/doctrine-array-hydrator",
   "license": "MIT",
   "authors": [
     {
@@ -15,6 +14,7 @@
     }
   ],
   "require": {
+      "php": "^7.1",
       "doctrine/orm": "^2.5"
   },
   "require-dev": {
