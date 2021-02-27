@@ -1,5 +1,5 @@
 {
-  "name": "solokiy/doctrine-array-hydrator",
+  "name": "solodkiy/doctrine-array-hydrator",
   "description": " An array to entity hydrator for Doctrine 2 entities ",
   "keywords": ["php", "doctrine", "hydrator", "array"],
   "license": "MIT",
