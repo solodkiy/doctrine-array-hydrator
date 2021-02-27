@@ -1,12 +1,12 @@
 <?php
 
-namespace pmill\Doctrine\Hydrator\Test;
+namespace Solodkiy\Doctrine\Hydrator\Test;
 
 use Doctrine\ORM\EntityManager;
 use Mockery as m;
-use pmill\Doctrine\Hydrator\ArrayHydrator;
-use pmill\Doctrine\Hydrator\Test\Fixture\Company;
-use pmill\Doctrine\Hydrator\Test\Fixture\Permission;
+use Solodkiy\Doctrine\Hydrator\ArrayHydrator;
+use Solodkiy\Doctrine\Hydrator\Test\Fixture\Company;
+use Solodkiy\Doctrine\Hydrator\Test\Fixture\Permission;
 
 class ArrayHydratorTest extends TestCase
 {

@@ -1,5 +1,5 @@
 <?php
-namespace pmill\Doctrine\Hydrator;
+namespace Solodkiy\Doctrine\Hydrator;
 
 use Doctrine\DBAL\Types\Type;
 use Doctrine\ORM\EntityManagerInterface;

@@ -1,6 +1,6 @@
 <?php
 
-namespace pmill\Doctrine\Hydrator\Test\Fixture;
+namespace Solodkiy\Doctrine\Hydrator\Test\Fixture;
 
 use Doctrine\ORM\Mapping as ORM;
 

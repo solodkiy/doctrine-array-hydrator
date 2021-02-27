@@ -4,8 +4,6 @@ Doctrine Array to Entity Hydrator
 Introduction
 ------------
 
-[![Build Status](https://secure.travis-ci.org/pmill/doctrine-array-hydrator.svg?branch=master)](http://travis-ci.org/pmill/doctrine-array-hydrator) [![Test Coverage](https://scrutinizer-ci.com/g/pmill/doctrine-array-hydrator/badges/quality-score.png?b=master)](https://scrutinizer-ci.com/g/pmill/doctrine-array-hydrator/) ![Downloads](https://poser.pugx.org/pmill/doctrine-array-hydrator/downloads)
-
 
 A hydrator for doctrine 2 that converts an array to the entity of your choice.
 
@@ -15,7 +13,7 @@ Installing via Composer
 The recommended way to install is through
 [Composer](http://getcomposer.org).
 
-    composer require pmill/doctrine-array-hydrator
+    composer require solodkiy/doctrine-array-hydrator
 
 Example
 -------
@@ -28,8 +26,8 @@ Given this doctrine entity:
 namespace App\Entity;
     
 use Doctrine\ORM\Mapping as ORM;
-use pmill\Doctrine\Hydrator\Test\Fixture\Company;
-use pmill\Doctrine\Hydrator\Test\Fixture\Permission;
+use Solodkiy\Doctrine\Hydrator\Test\Fixture\Company;
+use Solodkiy\Doctrine\Hydrator\Test\Fixture\Permission;
 
 /**
  * @ORM\Entity
@@ -86,7 +84,7 @@ $data = [
     'permissions' => [1, 2, 3, 4]
 ];
 
-$hydrator = new \pmill\Doctrine\Hydrator\ArrayHydrator($entityManager);
+$hydrator = new \Solodkiy\Doctrine\Hydrator\ArrayHydrator($entityManager);
 $entity   = $hydrator->hydrate('App\Entity\User', $data);
 ```
 
@@ -114,13 +112,14 @@ $data = [
     ]
 ];
     
-$hydrator = new \pmill\Doctrine\Hydrator\JsonApiHydrator($entityManager);
+$hydrator = new \Solodkiy\Doctrine\Hydrator\JsonApiHydrator($entityManager);
 $entity   = $hydrator->hydrate('App\Entity\User', $data);
 ```
 
 Copyright
 ---------
 
-Doctrine Array to Entity Hydrator
-Copyright (c) 2015 pmill (dev.pmill@gmail.com) 
+Doctrine Array to Entity Hydrator  
+Copyright (c) 2015 pmill (dev.pmill@gmail.com)   
+Copyright (c) 2021 Alexey Solodkiy  
 All rights reserved.

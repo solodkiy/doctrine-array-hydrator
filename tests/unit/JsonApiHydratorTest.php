@@ -1,8 +1,8 @@
-<?php namespace pmill\Doctrine\Hydrator\Test;
+<?php namespace Solodkiy\Doctrine\Hydrator\Test;
 
-use pmill\Doctrine\Hydrator\JsonApiHydrator;
-use pmill\Doctrine\Hydrator\Test\Fixture\Permission;
-use pmill\Doctrine\Hydrator\Test\Fixture\User;
+use Solodkiy\Doctrine\Hydrator\JsonApiHydrator;
+use Solodkiy\Doctrine\Hydrator\Test\Fixture\Permission;
+use Solodkiy\Doctrine\Hydrator\Test\Fixture\User;
 
 class JsonApiHydratorTest extends TestCase
 {

@@ -1,5 +1,5 @@
 <?php
-namespace pmill\Doctrine\Hydrator;
+namespace Solodkiy\Doctrine\Hydrator;
 
 /**
  * Json API Request Doctrine Hydrator
