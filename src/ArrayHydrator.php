@@ -70,10 +70,14 @@ class ArrayHydrator
     public function hydrate($entity, array $data)
     {
         if (is_string($entity) && class_exists($entity)) {
-            $entity = new $entity;
-        }
-        elseif (!is_object($entity)) {
-            throw new Exception('Entity passed to ArrayHydrator::hydrate() must be a class name or entity object');
+            try {
+                $class = new \ReflectionClass($entity);
+            } catch (\ReflectionException $e) {
+                throw new \RuntimeException('Class ' . $entity . ' not found?', 0, $e);
+            }
+            $entity = $class->newInstanceWithoutConstructor();
+        } elseif (!is_object($entity)) {
+            throw new \InvalidArgumentException('Entity passed to ArrayHydrator::hydrate() must be a class name or entity object');
         }
 
         $entity = $this->hydrateProperties($entity, $data);
